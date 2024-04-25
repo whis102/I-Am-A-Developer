@@ -26,24 +26,28 @@ export default function HomeScreen() {
     const characterName = userName;
 
     const [lifeStage, setLifeStage] = useState('Infant');
-    const [modalVisible, setModalVisible] = useState(false);
-    let age = data.Info.age
+
+    let age = data.Info.age;
+    const [ageLogs, setAgeLogs] = useState([
+        {
+            age: age,
+            events: [`You are at the age of ${age}`]
+        }
+    ]);
+
+
+
+    const [getAge, setAge] = useState(age);
 
     useEffect(() => {
-        if (age <= 1) {
+        if (getAge <= 1) {
             setLifeStage("Infant")
-        } else if (age <= 9) {
+        } else if (getAge <= 9) {
             setLifeStage("Kid")
-        } else if (age <= 19) {
+        } else if (getAge <= 19) {
             setLifeStage("Teenager")
         } else setLifeStage("Adult")
-
     }, [age])
-
-    const BACKEND_URL =
-        'https://fb-login-demo-93174-default-rtdb.firebaseio.com/';
-    // axios.post(BACKEND_URL + `/${userData.id}.json`, userData);
-
 
 
     const closeModal = () => {
@@ -51,11 +55,11 @@ export default function HomeScreen() {
     };
 
     const eventData = data.userAgeLogs
-    function renderItem(data) {
+    function renderItem({ item }) {
         return (
             <View style={styles.eventContainer} >
-                <Text style={styles.ageText}> Age: {data.item.age} </Text>
-                {data.item.events.map((event, id) => <Text key={id} style={styles.eventText}>{event}</Text>)}
+                <Text style={styles.ageText}> Age: {item.age} </Text>
+                {item.events.map((event, id) => <Text key={id} style={styles.eventText}>{event}</Text>)}
 
             </View>
         )
@@ -78,7 +82,7 @@ export default function HomeScreen() {
                     <View >
                         <CustomAvatar width={54} height={54} />
                         <View style={styles.level}>
-                            <Text>1</Text>
+                            <Text>{getAge}</Text>
                         </View>
                     </View>
                     <View style={{ marginTop: 17 }}>
@@ -95,7 +99,7 @@ export default function HomeScreen() {
             {/* Container of user's events and different age */}
             <View style={styles.eventsContainer}>
                 <FlatList
-                    data={eventData}
+                    data={ageLogs}
                     renderItem={renderItem}
                     keyExtractor={item => item.age}
                 />
@@ -124,7 +128,7 @@ export default function HomeScreen() {
                     <View style={styles.outterContainer}>
                         <Pressable
                             style={({ pressed }) => pressed && styles.pressed}
-                            onPress={() => setModalVisible(true)} //add onPress
+                            onPress={handleAgePress}
                         >
                             <View style={styles.buttonContainer}>
                                 <Text style={{ fontWeight: '600', color: 'white', fontSize: 24 }}>+</Text>
