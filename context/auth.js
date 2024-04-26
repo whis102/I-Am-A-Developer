@@ -23,7 +23,7 @@ function AuthContextProvider({ children, storedUserId }) {
     }
   }, [storedUserId]);
 
-  function authenticate(userId, userName = "") {
+  function authenticate(userId, userName="") {
     if (userId) {
       setAuthUserId(userId);
       setUserName(userName);

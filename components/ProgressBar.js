@@ -12,10 +12,13 @@ const PercentageBar = ({
 }) => {
 
 
-  const [getPercentage, setPercentage] = useState(percentage);
+  // const [getPercentage, setPercentage] = useState(percentage);
   const [getheight, setHeight] = useState(height);
   const [getBackgroundColor, setBackgroundColor] = useState(backgroundColor);
   const [getCompletedColor, setCompletedColor] = useState(completedColor);
+  
+
+
   return (
     <View>
       <View style={{ justifyContent: 'center' }}>
@@ -33,7 +36,7 @@ const PercentageBar = ({
         />
         <View
           style={{
-            width: `${getPercentage}%`,
+            width: `${percentage}%`,
             height: getheight,
             marginVertical: 0,
             borderRadius: 5,
@@ -44,7 +47,7 @@ const PercentageBar = ({
         />
         <View
           style={{
-            width: `${getPercentage}%`,
+            width: `${percentage}%`,
             height: getheight,
             bottom: 10
           }}>
