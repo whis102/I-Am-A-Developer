@@ -26,6 +26,7 @@ export default function JobMarket() {
       <View style={styles.JDContainer}>
         <Text><Text style={styles.label}>Requirement:</Text> {Object.entries(job.requirements).map(([key, value]) => `${key}: ${value}`).join(', ')}</Text>
         <Text><Text style={styles.label}>Subject Requirements:</Text> {Object.entries(job.subjectRequirements).map(([key, value]) => `${key}: ${value}`).join(', ')}</Text>
+        <Text><Text style={styles.label}>Subject Requirements:</Text> {Object.entries(job.subjectRequirements).map((req, id) => <Text key={id}>{id} : {req}</Text>)}</Text>
         <Text><Text style={styles.label}>Salary:</Text> {job.salary}</Text>
       </View>
     )

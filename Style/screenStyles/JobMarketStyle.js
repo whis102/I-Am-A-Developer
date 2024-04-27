@@ -13,7 +13,7 @@ export const styles= StyleSheet.create({
     },
     JDContainer:{
       flexGrow:1,
-      flexWrap:'wrap'
+      flexWrap:'wrap',
     }
      
 })

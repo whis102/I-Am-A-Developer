@@ -62,11 +62,12 @@ function RegisterScreen({ navigation }) {
     function registerUserName() {
      if (userId) {
        console.log("init",userId, initialState);
-       authContext.authenticate(userId, username);
+    //  authContext.authenticate(userId, username);
        const data = { userName: username };
        userContext.updateUser(data);
        try {
          postUserId(userId, initialState);
+         navigation.navigate("LoginScreen")
        }
        catch(err) {
          Alert.alert("Error", "Wrong Credential!")

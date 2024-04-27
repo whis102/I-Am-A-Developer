@@ -28,7 +28,7 @@ import { styles } from "../Style/screenStyles/HomeScreenStyle";
 
 export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
-  const [userName, setUserName] = useState("Tom");
+  //const [userName, setUserName] = useState("Tom");
   const [currentUser, setCurrentUser] = useState();
   const [currentKey, setCurrentKey] = useState();
   const authContext = useContext(AuthContext);
@@ -40,10 +40,11 @@ export default function HomeScreen() {
     async function loadUserName() {
       // load based on user Id
       if (userId) {
-        console.log("username: ", await AsyncStorage.getItem(userId));
-        setUserName(await AsyncStorage.getItem(userId));
+       // console.log("username: ", await AsyncStorage.getItem(userId));
+       // setUserName(await AsyncStorage.getItem(userId));
         try {
            getUserId(userId).then(({key, current}) => {
+            console.log("key current", key, current);
             setCurrentKey(key);
             setCurrentUser(current);
           });
@@ -64,7 +65,7 @@ export default function HomeScreen() {
       }
     }
     loadUserName();
-  }, []);
+  }, [userId]);
   const [lifeStage, setLifeStage] = useState("Infant");
 
   let age = data.Info.age;

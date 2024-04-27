@@ -37,7 +37,7 @@ function LoginScreen({ navigation }) {
             if (userId) {
                 const userName = await AsyncStorage.getItem(userId)
             authContext.authenticate(userId, userName);
-            console.log("uname", userName)
+            //console.log("uname", userName)
             } 
         }
         else {
