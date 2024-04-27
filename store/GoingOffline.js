@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { Button, Text, View } from "react-native";
+import { AuthContext } from "../context/auth";
 import { UserContext } from "../context/user-context";
 export default function GoingOffline() {
     const userContext = useContext(UserContext)
     const user = userContext.userState
+    const authContext = useContext(AuthContext)
     userContext.saveUserDataToStorage()
     return (
         <View>
@@ -17,10 +19,10 @@ export default function GoingOffline() {
                 console.log(user.status.health)
             }}></Button>
             <Button title="save data" onPress={() => {
-                userContext.saveUserDataToStorage('123123')
+                userContext.saveUserDataToStorage(authContext.userId)
             }}></Button>
             <Button title="load data" onPress={() => {
-                userContext.loadUserDataFromStorage('123123')
+                userContext.loadUserDataFromStorage(authContext.userId)
             }}></Button>
         </View>
     )

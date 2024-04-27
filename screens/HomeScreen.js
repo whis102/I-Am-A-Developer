@@ -4,19 +4,17 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Platform,
   Pressable,
-  StyleSheet,
   Text,
-  View,
-  ActivityIndicator,
+  View
 } from "react-native";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { styles } from "../Style/screenStyles/HomeScreenStyle";
 import CustomAvatar from "../components/CustomAvatar";
 import PercentageBar from "../components/ProgressBar";
 import RandomPopup from "../components/eventsPopup/RandomPopup";
@@ -24,7 +22,6 @@ import { AuthContext } from "../context/auth";
 import { getUserId } from "../context/axios";
 import { UserContext } from "../context/user-context";
 import data from "../data/userData.json";
-import { styles } from "../Style/screenStyles/HomeScreenStyle";
 
 export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,33 +32,28 @@ export default function HomeScreen() {
   const userId = authContext.userId;
   const userContext = useContext(UserContext);
   const navigation = useNavigation();
-
+  const user = userContext.userState
   React.useEffect(() => {
     async function loadUserName() {
       // load based on user Id
       if (userId) {
-       // console.log("username: ", await AsyncStorage.getItem(userId));
-       // setUserName(await AsyncStorage.getItem(userId));
+        // console.log("username: ", await AsyncStorage.getItem(userId));
+        // setUserName(await AsyncStorage.getItem(userId));
         try {
-           getUserId(userId).then(({key, current}) => {
+          await getUserId(userId).then(({ key, current }) => {
             console.log("key current", key, current);
             setCurrentKey(key);
-            setCurrentUser(current);
+            userContext.updateUser(current);
+
           });
-          
+
         } catch (err) {
           console.log(err.message);
         } finally {
           setIsLoading(false);
+          userContext.loadUserDataFromStorage(userId);
         }
 
-        return () => {
-          console.log("Component unmount");
-          //   axios.put(
-          //     BACKEND_URL + `/123123/${currentKey}.json`,
-          //     userContext.userState
-          //   );
-        };
       }
     }
     loadUserName();
@@ -151,7 +143,8 @@ export default function HomeScreen() {
           </View>
           <View style={styles.characterNameContainer}>
             <Text style={styles.stageStyle}> {lifeStage}</Text>
-            <Text style={styles.username}>{currentUser?.userName}</Text>
+            <Text style={styles.username}>{user.userName}</Text>
+            <Text style={styles.username}>{user.character.age}</Text>
           </View>
         </View>
         <View>
@@ -241,9 +234,9 @@ export default function HomeScreen() {
               : [styles.allStatusContainer, { paddingBottom: 50 }]
           }
         >
-            {
-                console.log(typeof currentUser?.status.health)
-            }
+          {
+            console.log(typeof currentUser?.status.health)
+          }
           <View style={styles.statusContainer}>
             <Text style={styles.ageText}>Happiness:</Text>
             <PercentageBar
@@ -270,7 +263,7 @@ export default function HomeScreen() {
               height={15}
               backgroundColor="grey"
               completedColor="#FD7C1F"
-              percentage={ parseInt(currentUser?.status.appearance)}
+              percentage={parseInt(currentUser?.status.appearance)}
               width={200}
             />
           </View>
