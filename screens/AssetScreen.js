@@ -70,6 +70,7 @@ export default function AssetScreen() {
       <AlertPopup
         modalVisible={modalVisible}
         closeModal={closeModal}
+        // buttonOnPress={}
         title={selectedAsset?.group} 
         content={renderContent(selectedAsset?.name,selectedAsset?.price)}
         buttonText={buttonText(selectedAsset?.group)}

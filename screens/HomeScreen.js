@@ -52,6 +52,7 @@ export default function HomeScreen() {
         } finally {
           setIsLoading(false);
           userContext.loadUserDataFromStorage(userId);
+          userContext.saveUserDataToStorage(userId);
         }
 
       }
@@ -235,7 +236,7 @@ export default function HomeScreen() {
           }
         >
           {
-            console.log(typeof currentUser?.status.health)
+            console.log(typeof user?.status.health)
           }
           <View style={styles.statusContainer}>
             <Text style={styles.ageText}>Happiness:</Text>
@@ -243,7 +244,7 @@ export default function HomeScreen() {
               height={15}
               backgroundColor="grey"
               completedColor="#009A34"
-              percentage={parseInt(currentUser?.status.happiness)}
+              percentage={parseInt(user?.status.happiness)}
               width={200}
             />
           </View>
@@ -253,7 +254,7 @@ export default function HomeScreen() {
               height={15}
               backgroundColor="grey"
               completedColor="#EED817"
-              percentage={parseInt(currentUser?.status.happiness)}
+              percentage={parseInt(user?.status.health)}
               width={200}
             />
           </View>
@@ -263,7 +264,7 @@ export default function HomeScreen() {
               height={15}
               backgroundColor="grey"
               completedColor="#FD7C1F"
-              percentage={parseInt(currentUser?.status.appearance)}
+              percentage={parseInt(user?.status.appearance)}
               width={200}
             />
           </View>

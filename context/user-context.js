@@ -226,7 +226,7 @@ const UserProvider = ({ children }) => {
             status: {
                 health: health ? userState.status.health += health : userState.status.health,
                 happiness: happiness ? userState.status.happiness += happiness : userState.status.happiness,
-                appearance: appearance ? userState.status.appearance += appearance : appearance
+                appearance: appearance ? userState.status.appearance += appearance : userState.status.happiness
             },
         });
     };
@@ -330,10 +330,11 @@ const UserProvider = ({ children }) => {
         });
     }
 
-
+//store data in async
     async function saveUserDataToStorage(uid) {
-        if (!userState.gameJustStarted)
+        if (!userState.gameJustStarted && uid)
             try {
+                console.log(userState);
                 await AsyncStorage.setItem(uid, JSON.stringify(userState));
                 console.log('USER Data saved successfully!');
                 console.log(userState);
@@ -341,7 +342,7 @@ const UserProvider = ({ children }) => {
                 console.log('Error saving data: ', error);
             }
     };
-
+// load data into context
     async function loadUserDataFromStorage(uid) {
         try {
             const storedData = await AsyncStorage.getItem(uid);
