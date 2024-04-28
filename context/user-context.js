@@ -123,6 +123,9 @@ const UserProvider = ({ children }) => {
 
     const [userState, setUserState] = useState(initialUserState);
     const [progress, setProgress] = useState(0)
+    function refresh() {
+        setUserState(initialUserState);
+    }
     function updateUser(newUserState) {
         setUserState((prev) => ({
             ...prev, ...newUserState,
@@ -232,12 +235,13 @@ const UserProvider = ({ children }) => {
         return id
     }
 
-    function loadProgress(uid) {
+    async function loadProgress(uid) {
         try {
-            const loadedProgress = AsyncStorage.getItem("progress" + uid)
+            const loadedProgress = await AsyncStorage.getItem("progress" + uid);
+            console.log( "progressId  :",loadedProgress, uid);
             setProgress(JSON.parse(loadedProgress))
         } catch (error) {
-            console.log('Error saving data: ', error);
+            console.log('Error progress saving data: ', error);
         }
 
     }
@@ -382,9 +386,11 @@ const UserProvider = ({ children }) => {
     async function saveUserDataToStorage(uid) {
         if (!userState.gameJustStarted)
             try {
-                await AsyncStorage.setItem(uid, JSON.stringify(userState));
-                console.log('USER Data saved successfully!');
-                console.log(userState);
+                let strData = ""
+                console.log("saving as",  strData =  JSON.stringify (userState))
+            if (strData) await AsyncStorage.setItem(uid, strData);
+                //console.log('USER Data saved successfully!');
+                console.log("save data",userState);
             } catch (error) {
                 console.log('Error saving data: ', error);
             }
@@ -393,8 +399,10 @@ const UserProvider = ({ children }) => {
     async function loadUserDataFromStorage(uid) {
         try {
             const storedData = await AsyncStorage.getItem(uid);
+            console.log("stored ",storedData);
             if (storedData !== null) {
                 const parsedData = JSON.parse(storedData);
+                console.log("storedata",typeof parsedData);
                 setUserState(parsedData)
                 console.log('Data loaded: ' + userState.status.health)
             }
@@ -431,10 +439,12 @@ const UserProvider = ({ children }) => {
                     affectedByDiseases,
                     updateRelationshipLevel,
                     saveUserDataToStorage,
-                    loadUserDataFromStorage
+                    loadUserDataFromStorage,
+                    refresh
                 }
             }>
             {children}
+            {console.log("userstate eve", userState)}
         </UserContext.Provider>
     );
 
